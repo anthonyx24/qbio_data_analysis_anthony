@@ -14,11 +14,14 @@ if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
 #######    Group 1: RNASeq     ############
  library(TCGAbiolinks)
  library(SummarizedExperiment)
+ barcodes_rnaseq <- c("TCGA-BH-A0DG-01A-21R-A12P-07","TCGA-A2-A0YF-01A-21R-A109-07",
+                     "TCGA-AN-A04A-01A-21R-A034-07","TCGA-AR-A1AP-01A-11R-A12P-07",
+                     "TCGA-A2-A0T3-01A-21R-A115-07", "TCGA-E2-A154-01A-11R-A115-07" )
  query <- GDCquery(project = "TCGA-BRCA",
                   data.category = "Transcriptome Profiling",
                   data.type = "Gene Expression Quantification",
                   workflow.type = "HTSeq - Counts",
-                  barcodes = c(barcodes_rnaseq))
+                  barcode = c(barcodes_rnaseq))
 # GDCdownload(query) #only need this line of code once to download the data
  sum_exp <- GDCprepare(query)
  str(sum_exp)
