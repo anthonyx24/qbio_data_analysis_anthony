@@ -15,9 +15,10 @@ if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
  library(TCGAbiolinks)
  library(SummarizedExperiment)
  query <- GDCquery(project = "TCGA-BRCA",
-                   data.category = "Transcriptome Profiling",
-                   data.type = "Gene Expression Quantification",
-                   workflow.type = "HTSeq - Counts")
+                  data.category = "Transcriptome Profiling",
+                  data.type = "Gene Expression Quantification",
+                  workflow.type = "HTSeq - Counts",
+                  barcodes = c(barcodes_rnaseq))
 # GDCdownload(query) #only need this line of code once to download the data
  sum_exp <- GDCprepare(query)
  str(sum_exp)
