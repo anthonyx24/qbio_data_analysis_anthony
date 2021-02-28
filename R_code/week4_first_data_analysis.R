@@ -24,16 +24,32 @@ if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
                   barcode = c(barcodes_rnaseq))
 # GDCdownload(query) #only need this line of code once to download the data
  sum_exp <- GDCprepare(query)
- str(sum_exp)
 # Create a tutorial on SummarizedExperiment
+htseq_counts <- assays(sum_exp)$"HTSeq - Counts" #pulls the counts data from the one assay we have available, HTSeq - Counts
 
 # Boxplots by age
 # Add a new column to colData called "age_category"
+patient_data <- colData(sum_exp)
+
 # If age_at_initial_pathologic_diagnosis is < 40, define patient as "Young" in new column
 # If age_at_initial_pathologic_diagnosis is >= 60, define patient as "Old" in new column
 # Other patients (between 40 and 60), define as "Mid"
-# Choose 3 genes of interest from the paper presentations
+patient_ages <- patient_data$paper_age_at_initial_pathologic_diagnosis
+patient_data$age_category = ifelse(patient_ages < 40, "Young", ifelse(patient_ages >= 60, "Old", "Mid"))
+
+# Choose 3 genes of interest from the paper presentations 
+rowData(sum_exp)$ensembl_gene_id[rowData(sum_exp)$external_gene_name == "ESR1"] #returns the gene id for the name ESR1, boolean indexing
+
+# genes <- c("ENSG00000141510", "ENSG00000141736", "ENSG00000121879")
+patient_data$TP53_counts = htseq_counts["ENSG00000141510",] #indexing [row, column], leaving a blank will give all the rows/columns
+patient_data$ERBB2_counts = htseq_counts["ENSG00000141736",]
+patient_data$PIK3CA_counts = htseq_counts["ENSG00000121879",]
+
 # Create 3 different boxplots with age_category on x-axis, counts on the y-axis by repeating the below code for each gene
+boxplot(TP53_counts~age_category, data = "patient_data", main = "Boxplot of HTSeq - Counts for TP53 by Age Category")
+boxplot(ERBB2_counts~age_category, data = "patient_data", main = "Boxplot of HTSeq - Counts for ERBB2 by Age Category")
+boxplot(PIK3CA_counts~age_category, data = "patient_data", main = "Boxplot of HTSeq - Counts for PIK3CA by Age Category")
+
 # remember to give your plot a title and informative axis labels
 # png("boxplot_genename.png")
 # boxplot(FILL IN HERE)
