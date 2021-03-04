@@ -20,7 +20,7 @@ library(SummarizedExperiment)
 query <- GDCquery(project = "TCGA-BRCA",
                   data.category = "Transcriptome Profiling",
                   data.type = "Gene Expression Quantification",
-                  workflow.type = "HTSeq - Counts"))
+                  workflow.type = "HTSeq - Counts")
 # extra argument for barcodes: barcode = c(barcodes_rnaseq)
 
 GDCdownload(query) #only need this line of code once to download the data
