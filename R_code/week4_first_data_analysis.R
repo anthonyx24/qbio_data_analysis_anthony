@@ -14,16 +14,17 @@ if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
 #######    Group 1: RNASeq     ############
  library(TCGAbiolinks)
  library(SummarizedExperiment)
- barcodes_rnaseq <- c("TCGA-BH-A0DG-01A-21R-A12P-07","TCGA-A2-A0YF-01A-21R-A109-07",
-                     "TCGA-AN-A04A-01A-21R-A034-07","TCGA-AR-A1AP-01A-11R-A12P-07",
-                     "TCGA-A2-A0T3-01A-21R-A115-07", "TCGA-E2-A154-01A-11R-A115-07" )
- query <- GDCquery(project = "TCGA-BRCA",
+# barcodes_rnaseq <- c("TCGA-BH-A0DG-01A-21R-A12P-07","TCGA-A2-A0YF-01A-21R-A109-07",
+#                    "TCGA-AN-A04A-01A-21R-A034-07","TCGA-AR-A1AP-01A-11R-A12P-07",
+#                    "TCGA-A2-A0T3-01A-21R-A115-07", "TCGA-E2-A154-01A-11R-A115-07" )
+query <- GDCquery(project = "TCGA-BRCA",
                   data.category = "Transcriptome Profiling",
                   data.type = "Gene Expression Quantification",
-                  workflow.type = "HTSeq - Counts",
-                  barcode = c(barcodes_rnaseq))
-# GDCdownload(query) #only need this line of code once to download the data
- sum_exp <- GDCprepare(query)
+                  workflow.type = "HTSeq - Counts"))
+# extra argument for barcodes: barcode = c(barcodes_rnaseq)
+
+GDCdownload(query) #only need this line of code once to download the data
+sum_exp <- GDCprepare(query)
 # Create a tutorial on SummarizedExperiment
 htseq_counts <- assays(sum_exp)$"HTSeq - Counts" #pulls the counts data from the one assay we have available, HTSeq - Counts
 
@@ -49,10 +50,13 @@ patient_data$ESR1_counts = htseq_counts["ENSG00000091831",]
 # Create 3 different boxplots with age_category on x-axis, counts on the y-axis by repeating the below code for each gene
 png("boxplot_TP53.png")
 boxplot(TP53_counts~age_category, data = patient_data, main = "Boxplot of HTSeq - Counts for TP53 by Age Category")
-
+png("boxplot_ERBB2.png")
 boxplot(ERBB2_counts~age_category, data = patient_data, main = "Boxplot of HTSeq - Counts for ERBB2 by Age Category")
+png("boxplot_PIK3CA.png")
 boxplot(PIK3CA_counts~age_category, data = patient_data, main = "Boxplot of HTSeq - Counts for PIK3CA by Age Category")
+png("boxplot_ESR1.png")
 boxplot(ESR1_counts~age_category, data = patient_data, main = "Boxplot of HTSeq - Counts for ESR1 by Age Category")
+dev.off()
 
 # remember to give your plot a title and informative axis labels
 # png("boxplot_genename.png")
