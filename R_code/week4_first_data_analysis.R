@@ -69,10 +69,10 @@ dev.off()
 # library(survival) #What do you need to do before running this line?
 # library(survminer) #What do you need to do before running this line?
 # library(arsenal) #What do you need to do before running this line?
-# clin_query <- GDCquery(project = "TCGA-BRCA", data.category="Clinical", file.type="xml")
-# GDCdownload( clin_query ) #should only need this command once. This downloads the files onto your system.
-# clinic <- GDCprepare_clinic(clin_query, clinical.info="patient")
-# names(clinic)[names(clinic) == "days_to_last_followup"] = "days_to_last_follow_up"
+clin_query <- GDCquery(project = "TCGA-BRCA", data.category="Clinical", file.type="xml", barcode = c(barcodes_clinic))
+GDCdownload( clin_query ) #should only need this command once. This downloads the files onto your system.
+clinic <- GDCprepare_clinic(clin_query, clinical.info="patient")
+names(clinic)[names(clinic) == "days_to_last_followup"] = "days_to_last_follow_up"
 
 #Add a new column to clinic called "age_category"
 #If age_at_initial_pathologic_diagnosis is < 40, define patient as "Young" in new column
@@ -119,6 +119,7 @@ dev.off()
 # after running ^^, navigate to the saved csv file. Open the csv file with below Code
 # only need to query once. For repeating code, you can just read in the saved dataframe you created
 # maf_dataframe <- read.csv("PATH/FILENAME.csv")
+maf_dataframe = read.maf(maf = maf_dataframe)
 # plotmafSummary(maf = maf_dataframe, rmOutlier = TRUE, addStat = 'median', dashboard = TRUE, titvRaw = FALSE)
 # pdf("maf_summary.pdf")
 # dev.off()
