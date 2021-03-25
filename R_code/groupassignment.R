@@ -36,11 +36,14 @@ htseq_counts <- assays(sum_exp)$"HTSeq - Counts"
 colnames(htseq_counts) <- patient_data$patient
 
 # Matching clinical data sample order to RNAseq sample order
-row_order <- match(colnames(htseq_counts), clinic$bcr_patient_barcode)
+row_order <- match(colnames(htseq_counts), clinic$bcr_patient_barcode) 
+# match function takes two parameters: first is the order you wish to match something to, and the second is the dataframe
+# you wish to alter the order of.
 clinic_ordered  <- clinic[row_order, ]
 
 # Get rid of nonmatching samples in clinical and htseq
 matching <- which(clinic_ordered$bcr_patient_barcode %in% colnames(htseq_counts))
+# which function basically only takes the values of clinic_ordered$bcr_patient_barcode that are also found in the colnames of htseq
 clinic_matched <- clinic_ordered[matching,]
 
 # Adding age to clinical data
@@ -51,7 +54,7 @@ clinic_matched$age_category = ifelse(age_clinical < 40, "Young", ifelse(age_clin
 TP53_mask <- rowData(sum_exp)$external_gene_name == "TP53"
 TP53_ENSG_name <- rowData(sum_exp)$ensembl_gene_id[ TP53_mask ]
 TP53_counts <- htseq_counts[TP53_ENSG_name, clinic_matched$bcr_patient_barcode]
-TP53_quartiles <- quantile(TP53_counts)
+TP53_quartiles <- quantile(TP53_counts) # Categorizing the expression level based on quartile analysis
 TP53_expression_level <- ifelse(TP53_counts > TP53_quartiles[4], "High", ifelse(TP53_counts < TP53_quartiles[2], "Low", "Mid"))
 clinic_matched$TP53_expression = TP53_expression_level
 
