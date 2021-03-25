@@ -9,9 +9,9 @@ library(devtools)
 library(robustbase)
 if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
 if(!requireNamespace("SummarizedExperiment"))BiocManager::install(c("SummarizedExperiment"))
-if(!requireNamespace("arsenal"))install.packages(c("arsenal"))
-if(!requireNamespace("survival"))install.packages(c("survival"))
-if(!requireNamespace("survminer"))install.packages(c("survminer"))
+install.packages(c("arsenal"), dependencies=TRUE)
+install.packages(c("survival"), dependencies=TRUE)
+install.packages(c("survminer"), dependencies=TRUE)
 
 # Loading packages
 library(TCGAbiolinks)
