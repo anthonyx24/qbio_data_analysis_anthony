@@ -1,18 +1,6 @@
 # Question: What is the difference in survivability between old, mid, and young patients 
 # with low vs. high gene expression of TP53, PIK3CA, MUC16?
 
-# Installation
-# if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-# if(!requireNamespace("devtools")) BiocManager::install(c("devtools"))
-# if(!requireNamespace("robustbase"))BiocManager::install(c("robustbase"))
-# library(devtools)
-# library(robustbase)
-# if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
-# if(!requireNamespace("SummarizedExperiment"))BiocManager::install(c("SummarizedExperiment"))
-# install.packages(c("arsenal"), dependencies=TRUE)
-# install.packages(c("survival"), dependencies=TRUE)
-# install.packages(c("survminer"), dependencies=TRUE)
-
 # Loading packages
 library(TCGAbiolinks)
 library(SummarizedExperiment)
