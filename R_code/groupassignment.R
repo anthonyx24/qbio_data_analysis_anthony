@@ -2,21 +2,20 @@
 # with low vs. high gene expression of TP53, PIK3CA, MUC16?
 
 # Installation
-if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-if(!requireNamespace("devtools")) BiocManager::install(c("devtools"))
-if(!requireNamespace("robustbase"))BiocManager::install(c("robustbase"))
-library(devtools)
-library(robustbase)
-if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
-if(!requireNamespace("SummarizedExperiment"))BiocManager::install(c("SummarizedExperiment"))
-install.packages(c("arsenal"), dependencies=TRUE)
-install.packages(c("survival"), dependencies=TRUE)
-install.packages(c("survminer"), dependencies=TRUE)
+# if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+# if(!requireNamespace("devtools")) BiocManager::install(c("devtools"))
+# if(!requireNamespace("robustbase"))BiocManager::install(c("robustbase"))
+# library(devtools)
+# library(robustbase)
+# if (!require(TCGAbiolinks)) BiocManager::install("TCGAbiolinks")
+# if(!requireNamespace("SummarizedExperiment"))BiocManager::install(c("SummarizedExperiment"))
+# install.packages(c("arsenal"), dependencies=TRUE)
+# install.packages(c("survival"), dependencies=TRUE)
+# install.packages(c("survminer"), dependencies=TRUE)
 
 # Loading packages
 library(TCGAbiolinks)
 library(SummarizedExperiment)
-library(arsenal)
 library(survival)
 library(survminer)
 
@@ -54,7 +53,7 @@ clinic_ordered  <- clinic[row_order, ]
 
 # Get rid of nonmatching samples in clinical and htseq
 matching <- which(clinic_ordered$bcr_patient_barcode %in% colnames(htseq_counts))
-clinic_matched <- clinic_ordered
+clinic_matched <- clinic_ordered[matching,]
 
 # Adding age to clinical data
 age_clinical = clinic_matched$age_at_initial_pathologic_diagnosis
@@ -90,22 +89,16 @@ clinic_mid <- subset(clinic_matched, clinic_matched$age_category=="Mid")
 clinic_young <- subset(clinic_matched, clinic_matched$age_category=="Young")
 
 # Making KM plots for TP53
-pdf(file = "TP53_KMplots.pdf")
-TCGAanalyze_survival(clinic_old, "TP53_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying TP53 Expression")
-TCGAanalyze_survival(clinic_mid, "TP53_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying TP53 Expression")
-TCGAanalyze_survival(clinic_young, "TP53_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying TP53 Expression")
-dev.off()
+TCGAanalyze_survival(clinic_old, "TP53_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying TP53 Expression", filename = "TP53old.pdf")
+TCGAanalyze_survival(clinic_mid, "TP53_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying TP53 Expression", filename = "TP53mid.pdf")
+TCGAanalyze_survival(clinic_young, "TP53_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying TP53 Expression", filename = "TP53young.pdf")
 
 # Making KM plots for PIK3CA
-pdf(file = "PIK3CA_KMplots.pdf")
-TCGAanalyze_survival(clinic_old, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying PIK3CA Expression")
-TCGAanalyze_survival(clinic_mid, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying PIK3CA Expression")
-TCGAanalyze_survival(clinic_young, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying PIK3CA Expression")
-dev.off()
+TCGAanalyze_survival(clinic_old, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying PIK3CA Expression", filename = "PIK3CAold.pdf")
+TCGAanalyze_survival(clinic_mid, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying PIK3CA Expression", filename = "PIK3CAmid.pdf")
+TCGAanalyze_survival(clinic_young, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying PIK3CA Expression", filename = "PIK3CAyoung.pdf")
 
 # Making KM plots for MUC16
-pdf(file = "MUC16_KMplots.pdf")
-TCGAanalyze_survival(clinic_old, "MUC16_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying MUC16 Expression")
-TCGAanalyze_survival(clinic_mid, "MUC16_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying MUC16 Expression")
-TCGAanalyze_survival(clinic_young, "MUC16_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying MUC16 Expression")
-dev.off()
+TCGAanalyze_survival(clinic_old, "MUC16_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying MUC16 Expression", filename = "MUC16old.pdf")
+TCGAanalyze_survival(clinic_mid, "MUC16_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying MUC16 Expression", filename = "MUC16mid.pdf")
+TCGAanalyze_survival(clinic_young, "MUC16_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying MUC16 Expression", filename = "MUC16young.pdf")
