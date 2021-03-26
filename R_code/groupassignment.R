@@ -35,49 +35,49 @@ names(clinic)[names(clinic) == "days_to_last_followup"] = "days_to_last_follow_u
 htseq_counts <- assays(sum_exp)$"HTSeq - Counts"
 colnames(htseq_counts) <- patient_data$patient
 
-# Matching clinical data sample order to RNAseq sample order
-row_order <- match(colnames(htseq_counts), clinic$bcr_patient_barcode) 
-# match function takes two parameters: first is the order you wish to match something to, and the second is the dataframe
-# you wish to alter the order of.
-clinic_ordered  <- clinic[row_order, ]
+# # Matching clinical data sample order to RNAseq sample order
+# row_order <- match(colnames(htseq_counts), clinic$bcr_patient_barcode) 
+# # match function takes two parameters: first is the order you wish to match something to, and the second is the dataframe
+# # you wish to alter the order of.
+# clinic_ordered  <- clinic[row_order, ]
 
-# Get rid of nonmatching samples in clinical and htseq
-matching <- which(clinic_ordered$bcr_patient_barcode %in% colnames(htseq_counts))
-# which function basically only takes the values of clinic_ordered$bcr_patient_barcode that are also found in the colnames of htseq
-clinic_matched <- clinic_ordered[matching,]
+# # Get rid of nonmatching samples in clinical and htseq
+# matching <- which(clinic_ordered$bcr_patient_barcode %in% colnames(htseq_counts))
+# # which function basically only takes the values of clinic_ordered$bcr_patient_barcode that are also found in the colnames of htseq
+# clinic_matched <- clinic_ordered[matching,]
 
 # Adding age to clinical data
-age_clinical = clinic_matched$age_at_initial_pathologic_diagnosis
-clinic_matched$age_category = ifelse(age_clinical < 40, "Young", ifelse(age_clinical >= 60, "Old", "Mid"))
+age_clinical = clinic$age_at_initial_pathologic_diagnosis
+clinic$age_category = ifelse(age_clinical < 40, "Young", ifelse(age_clinical >= 60, "Old", "Mid"))
 
 # Accessing counts data for TP53, categorize expression, and add to clinical data
 TP53_mask <- rowData(sum_exp)$external_gene_name == "TP53"
 TP53_ENSG_name <- rowData(sum_exp)$ensembl_gene_id[ TP53_mask ]
-TP53_counts <- htseq_counts[TP53_ENSG_name, clinic_matched$bcr_patient_barcode]
+TP53_counts <- htseq_counts[TP53_ENSG_name, clinic$bcr_patient_barcode]
 TP53_quartiles <- quantile(TP53_counts) # Categorizing the expression level based on quartile analysis
 TP53_expression_level <- ifelse(TP53_counts > TP53_quartiles[4], "High", ifelse(TP53_counts < TP53_quartiles[2], "Low", "Mid"))
-clinic_matched$TP53_expression = TP53_expression_level
+clinic$TP53_expression = TP53_expression_level
 
 # Accessing counts data for PIK3CA, categorize expression, and add to clinical data
 PIK3CA_mask <- rowData(sum_exp)$external_gene_name == "PIK3CA"
 PIK3CA_ENSG_name <- rowData(sum_exp)$ensembl_gene_id[ PIK3CA_mask ]
-PIK3CA_counts <- htseq_counts[PIK3CA_ENSG_name, clinic_matched$bcr_patient_barcode]
+PIK3CA_counts <- htseq_counts[PIK3CA_ENSG_name, clinic$bcr_patient_barcode]
 PIK3CA_quartiles <- quantile(PIK3CA_counts)
 PIK3CA_expression_level <- ifelse(PIK3CA_counts > PIK3CA_quartiles[4], "High", ifelse(PIK3CA_counts < PIK3CA_quartiles[2], "Low", "Mid"))
-clinic_matched$PIK3CA_expression = PIK3CA_expression_level
+clinic$PIK3CA_expression = PIK3CA_expression_level
 
 # Accessing counts data for MUC16, categorize expression, and add to clinical data
 MUC16_mask <- rowData(sum_exp)$external_gene_name == "MUC16"
 MUC16_ENSG_name <- rowData(sum_exp)$ensembl_gene_id[ MUC16_mask ]
-MUC16_counts <- htseq_counts[MUC16_ENSG_name, clinic_matched$bcr_patient_barcode]
+MUC16_counts <- htseq_counts[MUC16_ENSG_name, clinic$bcr_patient_barcode]
 MUC16_quartiles <- quantile(MUC16_counts)
 MUC16_expression_level <- ifelse(MUC16_counts > MUC16_quartiles[4], "High", ifelse(MUC16_counts < MUC16_quartiles[2], "Low", "Mid"))
-clinic_matched$MUC16_expression = MUC16_expression_level
+clinic$MUC16_expression = MUC16_expression_level
 
 # Splitting clinic_matched based on age
-clinic_old <- subset(clinic_matched, clinic_matched$age_category=="Old")
-clinic_mid <- subset(clinic_matched, clinic_matched$age_category=="Mid")
-clinic_young <- subset(clinic_matched, clinic_matched$age_category=="Young")
+clinic_old <- subset(clinic, clinic$age_category=="Old")
+clinic_mid <- subset(clinic, clinic$age_category=="Mid")
+clinic_young <- subset(clinic, clinic$age_category=="Young")
 
 # Making KM plots for TP53
 TCGAanalyze_survival(clinic_old, "TP53_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying TP53 Expression", filename = "TP53old.pdf")
