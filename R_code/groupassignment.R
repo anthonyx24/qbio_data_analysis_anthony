@@ -79,17 +79,17 @@ clinic_old <- subset(clinic_matched, clinic_matched$age_category=="Old")
 clinic_mid <- subset(clinic_matched, clinic_matched$age_category=="Mid")
 clinic_young <- subset(clinic_matched, clinic_matched$age_category=="Young")
 
-# # Making KM plots for TP53
-# TCGAanalyze_survival(clinic_old, "TP53_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying TP53 Expression", filename = "TP53old.pdf")
-# TCGAanalyze_survival(clinic_mid, "TP53_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying TP53 Expression", filename = "TP53mid.pdf")
-# TCGAanalyze_survival(clinic_young, "TP53_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying TP53 Expression", filename = "TP53young.pdf")
+# Making KM plots for TP53
+TCGAanalyze_survival(clinic_old, "TP53_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying TP53 Expression", filename = "TP53old.pdf")
+TCGAanalyze_survival(clinic_mid, "TP53_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying TP53 Expression", filename = "TP53mid.pdf")
+TCGAanalyze_survival(clinic_young, "TP53_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying TP53 Expression", filename = "TP53young.pdf")
 
-# # Making KM plots for PIK3CA
-# TCGAanalyze_survival(clinic_old, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying PIK3CA Expression", filename = "PIK3CAold.pdf")
-# TCGAanalyze_survival(clinic_mid, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying PIK3CA Expression", filename = "PIK3CAmid.pdf")
-# TCGAanalyze_survival(clinic_young, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying PIK3CA Expression", filename = "PIK3CAyoung.pdf")
+# Making KM plots for PIK3CA
+TCGAanalyze_survival(clinic_old, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying PIK3CA Expression", filename = "PIK3CAold.pdf")
+TCGAanalyze_survival(clinic_mid, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying PIK3CA Expression", filename = "PIK3CAmid.pdf")
+TCGAanalyze_survival(clinic_young, "PIK3CA_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying PIK3CA Expression", filename = "PIK3CAyoung.pdf")
 
-# # Making KM plots for MUC16
-# TCGAanalyze_survival(clinic_old, "MUC16_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying MUC16 Expression", filename = "MUC16old.pdf")
-# TCGAanalyze_survival(clinic_mid, "MUC16_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying MUC16 Expression", filename = "MUC16mid.pdf")
-# TCGAanalyze_survival(clinic_young, "MUC16_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying MUC16 Expression", filename = "MUC16young.pdf")
+# Making KM plots for MUC16
+TCGAanalyze_survival(clinic_old, "MUC16_expression", main="Kaplan-Meier Survival Curves for Old Patients with Varying MUC16 Expression", filename = "MUC16old.pdf")
+TCGAanalyze_survival(clinic_mid, "MUC16_expression", main="Kaplan-Meier Survival Curves for Middle-Aged Patients with Varying MUC16 Expression", filename = "MUC16mid.pdf")
+TCGAanalyze_survival(clinic_young, "MUC16_expression", main="Kaplan-Meier Survival Curves for Young Patients with Varying MUC16 Expression", filename = "MUC16young.pdf")
