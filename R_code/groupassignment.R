@@ -53,7 +53,7 @@ clinic_matched$age_category = ifelse(age_clinical < 40, "Young", ifelse(age_clin
 # Accessing counts data for TP53, categorize expression, and add to clinical data
 TP53_mask <- rowData(sum_exp)$external_gene_name == "TP53"
 TP53_ENSG_name <- rowData(sum_exp)$ensembl_gene_id[ TP53_mask ]
-TP53_counts <- htseq_counts[TP53_ENSG_name, clinic$bcr_patient_barcode]
+TP53_counts <- htseq_counts[TP53_ENSG_name, clinic_matched$bcr_patient_barcode]
 TP53_quartiles <- quantile(TP53_counts) # Categorizing the expression level based on quartile analysis
 TP53_expression_level <- ifelse(TP53_counts > TP53_quartiles[4], "High", ifelse(TP53_counts < TP53_quartiles[2], "Low", "Mid"))
 clinic_matched$TP53_expression = TP53_expression_level
@@ -61,7 +61,7 @@ clinic_matched$TP53_expression = TP53_expression_level
 # Accessing counts data for PIK3CA, categorize expression, and add to clinical data
 PIK3CA_mask <- rowData(sum_exp)$external_gene_name == "PIK3CA"
 PIK3CA_ENSG_name <- rowData(sum_exp)$ensembl_gene_id[ PIK3CA_mask ]
-PIK3CA_counts <- htseq_counts[PIK3CA_ENSG_name, clinic$bcr_patient_barcode]
+PIK3CA_counts <- htseq_counts[PIK3CA_ENSG_name, clinic_matched$bcr_patient_barcode]
 PIK3CA_quartiles <- quantile(PIK3CA_counts)
 PIK3CA_expression_level <- ifelse(PIK3CA_counts > PIK3CA_quartiles[4], "High", ifelse(PIK3CA_counts < PIK3CA_quartiles[2], "Low", "Mid"))
 clinic_matched$PIK3CA_expression = PIK3CA_expression_level
@@ -69,7 +69,7 @@ clinic_matched$PIK3CA_expression = PIK3CA_expression_level
 # Accessing counts data for MUC16, categorize expression, and add to clinical data
 MUC16_mask <- rowData(sum_exp)$external_gene_name == "MUC16"
 MUC16_ENSG_name <- rowData(sum_exp)$ensembl_gene_id[ MUC16_mask ]
-MUC16_counts <- htseq_counts[MUC16_ENSG_name, clinic$bcr_patient_barcode]
+MUC16_counts <- htseq_counts[MUC16_ENSG_name, clinic_matched$bcr_patient_barcode]
 MUC16_quartiles <- quantile(MUC16_counts)
 MUC16_expression_level <- ifelse(MUC16_counts > MUC16_quartiles[4], "High", ifelse(MUC16_counts < MUC16_quartiles[2], "Low", "Mid"))
 clinic_matched$MUC16_expression = MUC16_expression_level
